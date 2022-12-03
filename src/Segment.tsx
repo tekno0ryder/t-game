@@ -1,8 +1,8 @@
 import React, { ForwardedRef, forwardRef } from "react";
-import { SEGMENTS } from "./Game";
+import { SEGMENTS_CONFIG } from "./Game";
 
 type Props = {
-  config: typeof SEGMENTS[number];
+  config: typeof SEGMENTS_CONFIG[number];
   baseHeight: number;
 };
 

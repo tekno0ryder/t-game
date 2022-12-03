@@ -8,16 +8,19 @@ import Segment from "./Segment";
 const baseHeight = 650;
 const initialDuration = 2000;
 
-export const SEGMENTS = [
+export const SEGMENTS_CONFIG = [
   {
+    score: 1,
     ratio: 1,
     color: "#3b82f6",
   },
   {
+    score: 2,
     ratio: 0.6,
     color: "#22c55e",
   },
   {
+    score: 3,
     ratio: 0.25,
     color: "#e11d48",
   },
@@ -59,16 +62,21 @@ function Game() {
 
     const netRect = net.current!.getBoundingClientRect();
 
-    for (let i = 0; i < segments.current.length; i++) {
-      const segmentRect = segments.current[i].getBoundingClientRect();
+    // Reverse the array to take priority of smaller segment if both segments intersects
+    for (const [i, segment] of segments.current.reverse().entries()) {
+      const index = segments.current.length - 1 - i;
+      const segmentRect = segment.getBoundingClientRect();
 
       if (
         netRect.top <= segmentRect.top + segmentRect.height &&
         netRect.top + netRect.height > segmentRect.top
       ) {
-        setNetColor(SEGMENTS[i].color);
+        const config = SEGMENTS_CONFIG[index];
 
-        return setScore(score + i + 1);
+        setNetColor(config.color);
+        setScore(score + config.score);
+
+        return;
       }
     }
 
@@ -88,13 +96,13 @@ function Game() {
       onKeyDown={(e) => (isBlocked ? null : e.key === "Enter" && handlePress())}
       style={{ position: "fixed" }}
     >
-      <h2 style={{ padding: 16 }}>Score: {score}</h2>
+      <h2 style={{ margin: 16 }}>Score: {score}</h2>
       <div
         ref={net}
         style={{
           marginTop: 64,
           width: "100vw",
-          height: 8,
+          height: 12,
           background: netColor || "#64748b",
         }}
       />
@@ -113,7 +121,7 @@ function Game() {
               flexDirection: "column",
             }}
           >
-            {SEGMENTS.map((config, index) => (
+            {SEGMENTS_CONFIG.map((config, index) => (
               <Segment
                 key={index}
                 ref={(ref) => (segments.current[index] = ref!)}
