@@ -10,7 +10,7 @@ const config = {
     color: "#22c55e",
   },
   3: {
-    ratio: 0.2,
+    ratio: 0.25,
     color: "#e11d48",
   },
 };
@@ -33,7 +33,6 @@ const Segment = (
         width: 22,
         height: conf.ratio * baseHeight,
         background: conf.color,
-        marginTop: 32,
       }}
     />
   );
