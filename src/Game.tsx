@@ -5,10 +5,13 @@ import "reactjs-popup/dist/index.css";
 import { animated, useSpring } from "@react-spring/web";
 import Segment from "./Segment";
 import { baseHeight, initialDuration, SEGMENTS_CONFIG } from "./config";
+import { useLocalStorage } from "../public/useLocalStorage";
 
 function Game() {
   const [duration, setDuration] = useState(initialDuration);
   const [score, setScore] = useState(0);
+  const [maxScore, setMaxScore] = useLocalStorage("maxScore", 0);
+
   const [isBlocked, setIsBlocked] = useState(false);
   const [hasLost, setHasLost] = useState(false);
   const [netColor, setNetColor] = useState("");
@@ -54,7 +57,14 @@ function Game() {
         const config = SEGMENTS_CONFIG[index];
 
         setNetColor(config.color);
-        setScore(score + config.score);
+
+        const newScore = score + config.score;
+
+        setScore(newScore);
+
+        if (newScore > maxScore) {
+          setMaxScore(newScore);
+        }
 
         return;
       }
@@ -77,6 +87,7 @@ function Game() {
       style={{ position: "fixed" }}
     >
       <h2 style={{ margin: 16 }}>Score: {score}</h2>
+      <h5 style={{ margin: 16 }}>Max Score: {maxScore}</h5>
       <div
         ref={net}
         style={{
