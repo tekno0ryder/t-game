@@ -4,27 +4,7 @@ import "reactjs-popup/dist/index.css";
 
 import { animated, useSpring } from "@react-spring/web";
 import Segment from "./Segment";
-
-const baseHeight = 650;
-const initialDuration = 2000;
-
-export const SEGMENTS_CONFIG = [
-  {
-    score: 1,
-    ratio: 1,
-    color: "#3b82f6",
-  },
-  {
-    score: 2,
-    ratio: 0.6,
-    color: "#22c55e",
-  },
-  {
-    score: 3,
-    ratio: 0.25,
-    color: "#e11d48",
-  },
-];
+import { baseHeight, initialDuration, SEGMENTS_CONFIG } from "./config";
 
 function Game() {
   const [duration, setDuration] = useState(initialDuration);

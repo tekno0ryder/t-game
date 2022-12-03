@@ -1,5 +1,5 @@
 import React, { ForwardedRef, forwardRef } from "react";
-import { SEGMENTS_CONFIG } from "./Game";
+import { SEGMENTS_CONFIG } from "./config";
 
 type Props = {
   config: typeof SEGMENTS_CONFIG[number];
