@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Popup from "reactjs-popup";
 import "reactjs-popup/dist/index.css";
 
@@ -6,6 +6,7 @@ import { animated, useSpring } from "@react-spring/web";
 import Segment from "./Segment";
 import { baseHeight, initialDuration, SEGMENTS_CONFIG } from "./config";
 import { useLocalStorage } from "../public/useLocalStorage";
+import { useEventListener } from "usehooks-ts";
 
 function Game() {
   const [duration, setDuration] = useState(initialDuration);
@@ -39,7 +40,12 @@ function Game() {
     [duration, hasLost]
   );
 
-  const handlePress = () => {
+  useEventListener(
+    "keydown",
+    (event) => !isBlocked && event.key === " " && handlePress(score)
+  );
+
+  const handlePress = (score: number) => {
     setIsBlocked(true);
     api.stop();
 
@@ -73,17 +79,9 @@ function Game() {
     setHasLost(true);
   };
 
-  useEffect(() => {
-    document.addEventListener(
-      "keydown",
-      (event) => !isBlocked && event.key === " " && handlePress()
-    );
-  }, []);
-
   return (
     <div
-      onMouseDown={() => (isBlocked ? null : handlePress())}
-      onKeyDown={(e) => (isBlocked ? null : e.key === "Enter" && handlePress())}
+      onMouseDown={() => (isBlocked ? null : handlePress(score))}
       style={{ position: "fixed" }}
     >
       <h2 style={{ margin: 16 }}>Score: {score}</h2>
