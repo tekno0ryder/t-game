@@ -76,7 +76,7 @@ function Game() {
   useEffect(() => {
     document.addEventListener(
       "keydown",
-      (event) => !isBlocked && event.key === "  " && handlePress()
+      (event) => !isBlocked && event.key === " " && handlePress()
     );
   }, []);
 
